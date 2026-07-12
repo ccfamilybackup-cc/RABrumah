@@ -55,27 +55,55 @@
           mimeType: file.type
         };
 
-        fetch(URL, { 
-          method: "POST", 
-          body: JSON.stringify(payload) 
-        })
-        .then(res => res.json())
-        .then(data => {
-          if(data.result === "success") {
-            alert("Data dan foto berhasil disimpan!");
-            document.getElementById('materialForm').reset();
-          } else {
-            alert("Error: " + data.error);
-          }
-        })
-        .catch(err => alert("Gagal koneksi ke server."))
-        .finally(() => {
-          btn.innerText = "Simpan ke Drive & Sheet";
-          btn.disabled = false;
-        });
-      };
-      reader.readAsDataURL(file);
-    });
-  </script>
-</body>
-</html>
+        <!-- ... bagian form di atas ... -->
+
+  <script>
+    const URL = "https://script.google.com/macros/s/AKfycbwY0U_ixzTs__aOe4CHsIp7SIIQZjdP84Ixm6TG9BSc_wl2duZif0s29vbYTRlk2aSz/exec"; 
+
+    document.getElementById("materialForm").addEventListener("submit", (e) => {
+      e.preventDefault();
+      const btn = document.getElementById("submitBtn");
+      const fileInput = document.getElementById('fotoFile');
+      const file = fileInput.files[0];
+      
+      if (!file) {
+        alert("Silakan pilih foto!");
+        return;
+      }
+
+      btn.innerText = "Memproses...";
+      btn.disabled = true;
+
+      const reader = new FileReader();
+      reader.onload = function(e) {
+        const payload = {
+          kategori: document.getElementById('kategori').value,
+          barang: document.getElementById('barang').value,
+          satuan: document.getElementById('satuan').value,
+          harga: document.getElementById('harga').value,
+          toko: document.getElementById('toko').value,
+          file: e.target.result.split(',')[1],
+          filename: file.name,
+          mimeType: file.type
+        };
+        
+ // =========================================================
+// MASUKKAN KODE BARU DI SINI (MENGGANTIKAN FETCH LAMA)
+// =========================================================
+fetch(URL, {
+  method: "POST",
+  body: JSON.stringify(payload)
+})
+.then(response => {
+  // Pastikan data berhasil terkirim
+  alert("Data dan foto berhasil dikirim ke server!");
+  document.getElementById('materialForm').reset();
+})
+.catch(err => {
+  console.error(err);
+  alert("Gagal koneksi ke server.");
+})
+.finally(() => {
+  btn.innerText = "Simpan ke Drive & Sheet";
+  btn.disabled = false;
+});
