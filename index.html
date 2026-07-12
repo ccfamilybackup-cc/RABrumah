@@ -2,26 +2,96 @@
 <html lang="id">
 <head>
   <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Pencatat Material</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <title>Material Tracker</title>
   <script src="https://cdn.tailwindcss.com"></script>
+  <style>
+    .glass-effect {
+      background: rgba(255, 255, 255, 0.7);
+      backdrop-filter: blur(12px);
+      -webkit-backdrop-filter: blur(12px);
+      border: 1px solid rgba(255, 255, 255, 0.3);
+    }
+  </style>
 </head>
-<body class="bg-slate-50 p-4">
+<body class="bg-blue-50 min-h-screen p-4 flex items-center justify-center font-sans">
 
-  <div class="max-w-md mx-auto bg-white p-6 rounded-3xl shadow-lg">
-    <h2 class="text-xl font-bold mb-5 text-center">Catat Material</h2>
+  <div class="w-full max-w-sm glass-effect p-6 rounded-3xl shadow-2xl border border-white/50">
+    <div class="text-center mb-6">
+      <h2 class="text-2xl font-bold text-blue-600 tracking-tight flex items-center justify-center gap-2">
+        <svg class="w-7 h-7" fill="currentColor" viewBox="0 0 20 20"><path d="M10.707 2.293a1 1 0 00-1.414 0l-7 7a1 1 0 001.414 1.414L4 10.414V17a1 1 0 001 1h2a1 1 0 001-1v-2a1 1 0 011-1h2a1 1 0 011 1v2a1 1 0 001 1h2a1 1 0 001-1v-6.586l.293.293a1 1 0 001.414-1.414l-7-7z"/></svg>
+        Material Tracker
+      </h2>
+      <p class="text-slate-500 text-sm mt-1">Survei dan catat materialmu</p>
+    </div>
+    
     <form id="materialForm" class="space-y-4">
-      <input type="text" id="kategori" placeholder="Kategori" required class="w-full p-3 rounded-xl bg-slate-100">
-      <input type="text" id="barang" placeholder="Nama Material" required class="w-full p-3 rounded-xl bg-slate-100">
-      <input type="text" id="satuan" placeholder="Satuan" required class="w-full p-3 rounded-xl bg-slate-100">
-      <input type="number" id="harga" placeholder="Harga" required class="w-full p-3 rounded-xl bg-slate-100">
-      <input type="text" id="toko" placeholder="Nama Toko" required class="w-full p-3 rounded-xl bg-slate-100">
+      <!-- Kategori -->
+      <div>
+        <label class="block text-[10px] font-bold text-blue-400 uppercase tracking-widest mb-1 ml-1 flex items-center gap-1">
+          <svg class="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 11H5m14 0a2 2 0 012 2v6a2 2 0 01-2 2H5a2 2 0 01-2-2v-6a2 2 0 012-2m14 0V9a2 2 0 00-2-2M5 11V9a2 2 0 012-2m0 0V5a2 2 0 012-2h6a2 2 0 012 2v2M7 7h10"></path></svg>
+          Kategori Pekerjaan
+        </label>
+        <select id="kategori" required class="w-full p-3.5 text-sm rounded-xl border border-blue-100 bg-white/50 focus:ring-2 focus:ring-blue-400 outline-none transition-all shadow-sm">
+          <option value="">Pilih Kategori...</option>
+          <optgroup label="STRUKTUR & EKSTERIOR" class="font-bold text-slate-700">
+            <option value="1. PERSIAPAN">1. PERSIAPAN</option>
+            <option value="2. TANAH & PONDASI">2. TANAH & PONDASI</option>
+            <option value="3. BETON & STRUKTUR">3. BETON & STRUKTUR</option>
+            <option value="4. DINDING & PASANGAN">4. DINDING & PASANGAN</option>
+            <option value="5. KUSEN & PINTU">5. KUSEN & PINTU</option>
+            <option value="6. ATAP & PLAFON">6. ATAP & PLAFON</option>
+            <option value="7. INSTALASI LISTRIK & AIR">7. INSTALASI LISTRIK & AIR</option>
+            <option value="8. FINISHING & CAT">8. FINISHING & CAT</option>
+          </optgroup>
+          <optgroup label="INTERIOR" class="font-bold text-slate-700">
+            <option value="9. RUANG TAMU">9. RUANG TAMU</option>
+            <option value="10. DAPUR">10. DAPUR</option>
+            <option value="11. KAMAR TIDUR">11. KAMAR TIDUR</option>
+            <option value="12. KAMAR MANDI">12. KAMAR MANDI</option>
+          </optgroup>
+        </select>
+      </div>
+
+      <!-- Input Group -->
+      <div class="grid grid-cols-1 gap-4">
+        <div class="relative">
+          <span class="absolute left-3 top-3.5 text-blue-400"><svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z"></path></svg></span>
+          <input type="text" id="barang" placeholder="Nama Material" required class="w-full p-3.5 pl-10 text-sm rounded-xl border border-blue-100 bg-white/50 focus:ring-2 focus:ring-blue-400 outline-none shadow-sm">
+        </div>
+        
+        <!-- Satuan & Harga Berdampingan (Satuan Kecil, Harga Lebar) -->
+        <div class="grid grid-cols-3 gap-4">
+          <div class="col-span-1">
+            <input type="text" id="satuan" placeholder="Satuan" required class="w-full p-3.5 text-sm rounded-xl border border-blue-100 bg-white/50 focus:ring-2 focus:ring-blue-400 outline-none shadow-sm text-center">
+          </div>
+          <div class="col-span-2">
+            <input type="text" id="hargaDisplay" placeholder="Harga (Rp)" required class="w-full p-3.5 text-sm rounded-xl border border-blue-100 bg-white/50 focus:ring-2 focus:ring-blue-400 outline-none shadow-sm text-center">
+          </div>
+        </div>
+      </div>
       
-      <label class="block text-sm font-semibold text-slate-600">Upload Foto Material:</label>
-      <input type="file" id="fotoFile" accept="image/*" required class="w-full p-2 border-2 border-dashed border-slate-300 rounded-xl">
+      <input type="hidden" id="harga">
       
-      <button type="submit" id="submitBtn" class="w-full bg-indigo-600 text-white font-bold py-3 rounded-xl hover:bg-indigo-700">
-        Simpan ke Drive & Sheet
+      <div class="relative">
+        <span class="absolute left-3 top-3.5 text-blue-400"><svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4"></path></svg></span>
+        <input type="text" id="toko" placeholder="Toko / Supplier" required class="w-full p-3.5 pl-10 text-sm rounded-xl border border-blue-100 bg-white/50 focus:ring-2 focus:ring-blue-400 outline-none shadow-sm">
+      </div>
+      
+      <div>
+        <label class="block text-[10px] font-bold text-blue-400 uppercase tracking-widest mb-1 ml-1 flex items-center gap-1">
+          <svg class="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 9a2 2 0 012-2h.93a2 2 0 001.664-.89l.812-1.22A2 2 0 0110.07 4h3.86a2 2 0 011.664.89l.812 1.22A2 2 0 0018.07 7H19a2 2 0 012 2v9a2 2 0 01-2 2H5a2 2 0 01-2-2V9z"></path><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 13a3 3 0 11-6 0 3 3 0 016 0z"></path></svg>
+          Foto Bukti Material
+        </label>
+        <input type="file" id="fotoFile" accept="image/*" required class="w-full p-3 text-sm border-2 border-dashed border-blue-200 rounded-xl bg-white/50 cursor-pointer shadow-sm">
+        <div id="previewContainer" class="hidden mt-3">
+          <img id="imagePreview" src="#" alt="Pratinjau" class="w-full h-40 object-cover rounded-xl border border-blue-100 shadow-inner">
+        </div>
+      </div>
+      
+      <button type="submit" id="submitBtn" class="w-full bg-blue-600 text-white font-bold py-3.5 rounded-xl hover:bg-blue-500 active:scale-95 transition-all shadow-lg shadow-blue-200 mt-2 flex items-center justify-center gap-2">
+        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path></svg>
+        SIMPAN DATA
       </button>
     </form>
   </div>
@@ -29,23 +99,34 @@
   <script>
     const URL = "https://script.google.com/macros/s/AKfycbwY0U_ixzTs__aOe4CHsIp7SIIQZjdP84Ixm6TG9BSc_wl2duZif0s29vbYTRlk2aSz/exec";
 
-    document.getElementById("materialForm").addEventListener("submit", (e) => {
-      e.preventDefault();
-      
-      const btn = document.getElementById("submitBtn");
-      const fileInput = document.getElementById('fotoFile');
-      const file = fileInput.files[0];
+    const fotoFile = document.getElementById('fotoFile');
+    const previewContainer = document.getElementById('previewContainer');
+    const imagePreview = document.getElementById('imagePreview');
 
-      if (!file) {
-        alert("Silakan pilih foto!");
-        return;
+    fotoFile.addEventListener('change', function() {
+      if (this.files[0]) {
+        const reader = new FileReader();
+        reader.onload = e => { imagePreview.src = e.target.result; previewContainer.classList.remove('hidden'); };
+        reader.readAsDataURL(this.files[0]);
       }
+    });
 
-      btn.innerText = "Memproses...";
+    const hargaDisplay = document.getElementById('hargaDisplay');
+    hargaDisplay.addEventListener('input', function(e) {
+      let val = e.target.value.replace(/[^0-9]/g, '');
+      document.getElementById('harga').value = val;
+      e.target.value = val ? 'Rp ' + new Intl.NumberFormat('id-ID').format(val) : '';
+    });
+
+    document.getElementById('materialForm').addEventListener('submit', (e) => {
+      e.preventDefault();
+      const btn = document.getElementById('submitBtn');
+      const file = fotoFile.files[0];
+      btn.innerText = "MENGIRIM...";
       btn.disabled = true;
 
       const reader = new FileReader();
-      reader.onload = function (e) {
+      reader.onload = function(e) {
         const payload = {
           kategori: document.getElementById('kategori').value,
           barang: document.getElementById('barang').value,
@@ -57,28 +138,23 @@
           mimeType: file.type
         };
 
-        // Mengirim menggunakan text/plain agar terhindar dari preflight CORS di Apps Script
         fetch(URL, {
           method: "POST",
-          headers: {
-            "Content-Type": "text/plain;charset=utf-8"
-          },
+          headers: { "Content-Type": "text/plain;charset=utf-8" },
           body: JSON.stringify(payload)
         })
-        .then(response => {
-          alert("Berhasil! Data dan foto telah dikirim ke Google Sheet dan Drive.");
+        .then(() => {
+          alert("Data berhasil tersimpan di sistem!");
           document.getElementById('materialForm').reset();
+          hargaDisplay.value = '';
+          previewContainer.classList.add('hidden');
         })
-        .catch(err => {
-          console.error(err);
-          alert("Terjadi kesalahan atau gagal koneksi ke server.");
-        })
+        .catch(() => alert("Gagal koneksi ke server."))
         .finally(() => {
-          btn.innerText = "Simpan ke Drive & Sheet";
+          btn.innerHTML = `<svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path></svg> SIMPAN DATA`;
           btn.disabled = false;
         });
       };
-
       reader.readAsDataURL(file);
     });
   </script>
