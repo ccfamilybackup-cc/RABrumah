@@ -10,7 +10,6 @@
 
   <div class="max-w-md mx-auto bg-white p-6 rounded-3xl shadow-lg">
     <h2 class="text-xl font-bold mb-5 text-center">Catat Material</h2>
-    
     <form id="materialForm" class="space-y-4">
       <input type="text" id="kategori" placeholder="Kategori" required class="w-full p-3 rounded-xl bg-slate-100">
       <input type="text" id="barang" placeholder="Nama Material" required class="w-full p-3 rounded-xl bg-slate-100">
@@ -21,19 +20,22 @@
       <label class="block text-sm font-semibold text-slate-600">Upload Foto Material:</label>
       <input type="file" id="fotoFile" accept="image/*" required class="w-full p-2 border-2 border-dashed border-slate-300 rounded-xl">
       
-      <button type="submit" id="submitBtn" class="w-full bg-indigo-600 text-white font-bold py-3 rounded-xl hover:bg-indigo-700">Simpan ke Drive & Sheet</button>
+      <button type="submit" id="submitBtn" class="w-full bg-indigo-600 text-white font-bold py-3 rounded-xl hover:bg-indigo-700">
+        Simpan ke Drive & Sheet
+      </button>
     </form>
   </div>
 
   <script>
-    const URL = "https://script.google.com/macros/s/AKfycbwY0U_ixzTs__aOe4CHsIp7SIIQZjdP84Ixm6TG9BSc_wl2duZif0s29vbYTRlk2aSz/exec"; 
+    const URL = "https://script.google.com/macros/s/AKfycbwY0U_ixzTs__aOe4CHsIp7SIIQZjdP84Ixm6TG9BSc_wl2duZif0s29vbYTRlk2aSz/exec";
 
     document.getElementById("materialForm").addEventListener("submit", (e) => {
       e.preventDefault();
+      
       const btn = document.getElementById("submitBtn");
       const fileInput = document.getElementById('fotoFile');
       const file = fileInput.files[0];
-      
+
       if (!file) {
         alert("Silakan pilih foto!");
         return;
@@ -43,7 +45,7 @@
       btn.disabled = true;
 
       const reader = new FileReader();
-      reader.onload = function(e) {
+      reader.onload = function (e) {
         const payload = {
           kategori: document.getElementById('kategori').value,
           barang: document.getElementById('barang').value,
@@ -55,107 +57,28 @@
           mimeType: file.type
         };
 
+        // Mengirim menggunakan text/plain agar terhindar dari preflight CORS di Apps Script
         fetch(URL, {
           method: "POST",
-          mode: "no-cors",
-          headers: { "Content-Type": "application/json" },
+          headers: {
+            "Content-Type": "text/plain;charset=utf-8"
+          },
           body: JSON.stringify(payload)
         })
-        .then(() => {
-          // Menampilkan pesan pop-up sukses
+        .then(response => {
           alert("Berhasil! Data dan foto telah dikirim ke Google Sheet dan Drive.");
           document.getElementById('materialForm').reset();
         })
         .catch(err => {
           console.error(err);
-          alert("Terjadi kesalahan saat mengirim data.");
+          alert("Terjadi kesalahan atau gagal koneksi ke server.");
         })
         .finally(() => {
           btn.innerText = "Simpan ke Drive & Sheet";
           btn.disabled = false;
         });
       };
-      reader.readAsDataURL(file);
-    });
-  </script>
-</body>
-</html><!DOCTYPE html>
-<html lang="id">
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Pencatat Material</title>
-  <script src="https://cdn.tailwindcss.com"></script>
-</head>
-<body class="bg-slate-50 p-4">
 
-  <div class="max-w-md mx-auto bg-white p-6 rounded-3xl shadow-lg">
-    <h2 class="text-xl font-bold mb-5 text-center">Catat Material</h2>
-    
-    <form id="materialForm" class="space-y-4">
-      <input type="text" id="kategori" placeholder="Kategori" required class="w-full p-3 rounded-xl bg-slate-100">
-      <input type="text" id="barang" placeholder="Nama Material" required class="w-full p-3 rounded-xl bg-slate-100">
-      <input type="text" id="satuan" placeholder="Satuan" required class="w-full p-3 rounded-xl bg-slate-100">
-      <input type="number" id="harga" placeholder="Harga" required class="w-full p-3 rounded-xl bg-slate-100">
-      <input type="text" id="toko" placeholder="Nama Toko" required class="w-full p-3 rounded-xl bg-slate-100">
-      
-      <label class="block text-sm font-semibold text-slate-600">Upload Foto Material:</label>
-      <input type="file" id="fotoFile" accept="image/*" required class="w-full p-2 border-2 border-dashed border-slate-300 rounded-xl">
-      
-      <button type="submit" id="submitBtn" class="w-full bg-indigo-600 text-white font-bold py-3 rounded-xl hover:bg-indigo-700">Simpan ke Drive & Sheet</button>
-    </form>
-  </div>
-
-  <script>
-    const URL = "https://script.google.com/macros/s/AKfycbwY0U_ixzTs__aOe4CHsIp7SIIQZjdP84Ixm6TG9BSc_wl2duZif0s29vbYTRlk2aSz/exec"; 
-
-    document.getElementById("materialForm").addEventListener("submit", (e) => {
-      e.preventDefault();
-      const btn = document.getElementById("submitBtn");
-      const fileInput = document.getElementById('fotoFile');
-      const file = fileInput.files[0];
-      
-      if (!file) {
-        alert("Silakan pilih foto!");
-        return;
-      }
-
-      btn.innerText = "Memproses...";
-      btn.disabled = true;
-
-      const reader = new FileReader();
-      reader.onload = function(e) {
-        const payload = {
-          kategori: document.getElementById('kategori').value,
-          barang: document.getElementById('barang').value,
-          satuan: document.getElementById('satuan').value,
-          harga: document.getElementById('harga').value,
-          toko: document.getElementById('toko').value,
-          file: e.target.result.split(',')[1],
-          filename: file.name,
-          mimeType: file.type
-        };
-
-        fetch(URL, {
-          method: "POST",
-          mode: "no-cors",
-          headers: { "Content-Type": "application/json" },
-          body: JSON.stringify(payload)
-        })
-        .then(() => {
-          // Menampilkan pesan pop-up sukses
-          alert("Berhasil! Data dan foto telah dikirim ke Google Sheet dan Drive.");
-          document.getElementById('materialForm').reset();
-        })
-        .catch(err => {
-          console.error(err);
-          alert("Terjadi kesalahan saat mengirim data.");
-        })
-        .finally(() => {
-          btn.innerText = "Simpan ke Drive & Sheet";
-          btn.disabled = false;
-        });
-      };
       reader.readAsDataURL(file);
     });
   </script>
