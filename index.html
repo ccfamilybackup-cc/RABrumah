@@ -12,9 +12,27 @@
       -webkit-backdrop-filter: blur(12px);
       border: 1px solid rgba(255, 255, 255, 0.3);
     }
+    .modal-backdrop {
+      background: rgba(0, 0, 0, 0.4);
+      backdrop-filter: blur(4px);
+    }
   </style>
 </head>
 <body class="bg-blue-50 min-h-screen p-4 flex items-center justify-center font-sans">
+
+  <!-- Success Modal -->
+  <div id="successModal" class="fixed inset-0 z-50 hidden flex items-center justify-center p-4 modal-backdrop">
+    <div class="bg-white rounded-3xl p-8 max-w-xs w-full text-center shadow-2xl transform transition-all">
+      <div class="w-16 h-16 bg-green-100 rounded-full flex items-center justify-center mx-auto mb-4">
+        <svg class="w-8 h-8 text-green-500" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path></svg>
+      </div>
+      <h3 class="text-lg font-bold text-slate-800 mb-1">Data Diproses!</h3>
+      <p class="text-slate-500 text-sm mb-6">Material sedang diunggah ke background.</p>
+      <button onclick="closeModal()" class="w-full bg-blue-600 text-white font-bold py-3 rounded-xl hover:bg-blue-500 transition-all">
+        Lanjutkan
+      </button>
+    </div>
+  </div>
 
   <div class="w-full max-w-sm glass-effect p-6 rounded-3xl shadow-2xl border border-white/50">
     <div class="text-center mb-6">
@@ -26,7 +44,6 @@
     </div>
     
     <form id="materialForm" class="space-y-4">
-      <!-- Kategori -->
       <div>
         <label class="block text-[10px] font-bold text-blue-400 uppercase tracking-widest mb-1 ml-1 flex items-center gap-1">
           <svg class="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 11H5m14 0a2 2 0 012 2v6a2 2 0 01-2 2H5a2 2 0 01-2-2v-6a2 2 0 012-2m14 0V9a2 2 0 00-2-2M5 11V9a2 2 0 012-2m0 0V5a2 2 0 012-2h6a2 2 0 012 2v2M7 7h10"></path></svg>
@@ -35,32 +52,30 @@
         <select id="kategori" required class="w-full p-3.5 text-sm rounded-xl border border-blue-100 bg-white/50 focus:ring-2 focus:ring-blue-400 outline-none transition-all shadow-sm">
           <option value="">Pilih Kategori...</option>
           <optgroup label="STRUKTUR & EKSTERIOR" class="font-bold text-slate-700">
-            <option value="PERSIAPAN">1. PERSIAPAN</option>
-            <option value="TANAH & PONDASI">2. TANAH & PONDASI</option>
-            <option value="BETON & STRUKTUR">3. BETON & STRUKTUR</option>
-            <option value="DINDING & PASANGAN">4. DINDING & PASANGAN</option>
-            <option value="KUSEN & PINTU">5. KUSEN & PINTU</option>
-            <option value="ATAP & PLAFON">6. ATAP & PLAFON</option>
-            <option value="INSTALASI LISTRIK & AIR">7. INSTALASI LISTRIK & AIR</option>
-            <option value="FINISHING & CAT">8. FINISHING & CAT</option>
+            <option value="1. PERSIAPAN">1. PERSIAPAN</option>
+            <option value="2. TANAH & PONDASI">2. TANAH & PONDASI</option>
+            <option value="3. BETON & STRUKTUR">3. BETON & STRUKTUR</option>
+            <option value="4. DINDING & PASANGAN">4. DINDING & PASANGAN</option>
+            <option value="5. KUSEN & PINTU">5. KUSEN & PINTU</option>
+            <option value="6. ATAP & PLAFON">6. ATAP & PLAFON</option>
+            <option value="7. INSTALASI LISTRIK & AIR">7. INSTALASI LISTRIK & AIR</option>
+            <option value="8. FINISHING & CAT">8. FINISHING & CAT</option>
           </optgroup>
           <optgroup label="INTERIOR" class="font-bold text-slate-700">
-            <option value="RUANG TAMU">9. RUANG TAMU</option>
-            <option value="DAPUR">10. DAPUR</option>
-            <option value="KAMAR TIDUR">11. KAMAR TIDUR</option>
-            <option value="KAMAR MANDI">12. KAMAR MANDI</option>
+            <option value="9. RUANG TAMU">9. RUANG TAMU</option>
+            <option value="10. DAPUR">10. DAPUR</option>
+            <option value="11. KAMAR TIDUR">11. KAMAR TIDUR</option>
+            <option value="12. KAMAR MANDI">12. KAMAR MANDI</option>
           </optgroup>
         </select>
       </div>
 
-      <!-- Input Group -->
       <div class="grid grid-cols-1 gap-4">
         <div class="relative">
           <span class="absolute left-3 top-3.5 text-blue-400"><svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z"></path></svg></span>
           <input type="text" id="barang" placeholder="Nama Material" required class="w-full p-3.5 pl-10 text-sm rounded-xl border border-blue-100 bg-white/50 focus:ring-2 focus:ring-blue-400 outline-none shadow-sm">
         </div>
         
-        <!-- Satuan & Harga Berdampingan (Satuan Kecil, Harga Lebar) -->
         <div class="grid grid-cols-3 gap-4">
           <div class="col-span-1">
             <input type="text" id="satuan" placeholder="Satuan" required class="w-full p-3.5 text-sm rounded-xl border border-blue-100 bg-white/50 focus:ring-2 focus:ring-blue-400 outline-none shadow-sm text-center">
@@ -99,6 +114,10 @@
   <script>
     const URL = "https://script.google.com/macros/s/AKfycbwY0U_ixzTs__aOe4CHsIp7SIIQZjdP84Ixm6TG9BSc_wl2duZif0s29vbYTRlk2aSz/exec";
 
+    function closeModal() {
+      document.getElementById('successModal').classList.add('hidden');
+    }
+
     const fotoFile = document.getElementById('fotoFile');
     const previewContainer = document.getElementById('previewContainer');
     const imagePreview = document.getElementById('imagePreview');
@@ -122,7 +141,8 @@
       e.preventDefault();
       const btn = document.getElementById('submitBtn');
       const file = fotoFile.files[0];
-      btn.innerText = "MENGIRIM...";
+      
+      // 1. Kunci tombol
       btn.disabled = true;
 
       const reader = new FileReader();
@@ -138,22 +158,19 @@
           mimeType: file.type
         };
 
+        // 2. Kirim di background
         fetch(URL, {
           method: "POST",
           headers: { "Content-Type": "text/plain;charset=utf-8" },
           body: JSON.stringify(payload)
-        })
-        .then(() => {
-          alert("Data berhasil tersimpan di sistem!");
-          document.getElementById('materialForm').reset();
-          hargaDisplay.value = '';
-          previewContainer.classList.add('hidden');
-        })
-        .catch(() => alert("Gagal koneksi ke server."))
-        .finally(() => {
-          btn.innerHTML = `<svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path></svg> SIMPAN DATA`;
-          btn.disabled = false;
-        });
+        }).catch(err => console.error("Error background:", err));
+
+        // 3. Efek Instan
+        document.getElementById('successModal').classList.remove('hidden');
+        document.getElementById('materialForm').reset();
+        hargaDisplay.value = '';
+        previewContainer.classList.add('hidden');
+        btn.disabled = false;
       };
       reader.readAsDataURL(file);
     });
